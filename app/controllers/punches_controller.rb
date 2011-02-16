@@ -74,6 +74,7 @@ class PunchesController < ApplicationController
       if @punch.parse_and_save
         format.html { redirect_to(punches_path, :notice => 'Punch was successfully created.') }
         format.xml  { render :xml => @punch, :status => :created, :location => @punch }
+        format.js
       else
         format.html { render :action => "new" }
         format.xml  { render :xml => @punch.errors, :status => :unprocessable_entity }

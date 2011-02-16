@@ -45,6 +45,14 @@ class Punch < ActiveRecord::Base
 	def self.per_page
 		10
 	end
+        
+        def start_work
+          self.start_time = Time.now unless self.duration_in_minutes?
+        end
+
+        def end_work
+          self.duration_in_minutes = (Time.now.to_i - start_time.to_i) / 60
+        end
 	
 	private
 	
