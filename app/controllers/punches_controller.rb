@@ -137,4 +137,9 @@ class PunchesController < ApplicationController
   		format.js { render :json => @tags}
   	end
   end
+
+  def stop
+    @punch = Punch.find(params[:id])
+    @punch.end_work
+  end
 end

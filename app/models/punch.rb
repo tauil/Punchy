@@ -10,7 +10,7 @@ class Punch < ActiveRecord::Base
 	scope :since, lambda { |lambda| where("punches.created_at > ?", lambda)}
 
         after_create :start_work
-	
+
 	#sum hours scopes
 	def self.hours_today
 		self.since(Time.now.beginning_of_day).sum(:duration_in_minutes)
@@ -54,7 +54,8 @@ class Punch < ActiveRecord::Base
         end
 
         def end_work
-          self.duration_in_minutes = (Time.now.to_i - start_time.to_i) / 60
+          self.duration_in_minutes = self.duration_in_minutes + ((Time.now.to_i - start_time.to_i) / 60)
+          self.save
         end
 	
 	private

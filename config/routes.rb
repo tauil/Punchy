@@ -12,6 +12,8 @@ Timish::Application.routes.draw do |map|
   end
   
   root :to => "punches#index"
+  
+  match 'punches/:id/stop' => 'punches#stop'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

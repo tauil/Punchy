@@ -1,6 +1,6 @@
 class AddStartTimeToPunches < ActiveRecord::Migration
   def self.up
-    add_column :punches, :start_time, :integer
+    add_column :punches, :start_time, :date
   end
 
   def self.down
