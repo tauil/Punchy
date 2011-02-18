@@ -1,13 +1,14 @@
-<div class="punch <%= punch.created_at > Time.now.beginning_of_day ? "today" : "" %>">
-	<p>
-		<%= highlight(punch).html_safe %>
-	</p>
-	<div class="date">Started working <%= punch.start_time %><br /><%= punch.created_at.strftime("%a, %B %d, %Y") %></div>
-	<div class="punch_control">
-
-        <%= link_to "Stop working", "punches/#{punch.id}/stop", :remote => true if punch.start_time? %>
-
-    	<%= link_to image_tag("edit.png"), edit_punch_path(punch) %> 
-    	<%= link_to image_tag("delete.png"), punch, :confirm => 'Are you sure?', :method => :delete %>
-    </div>
-</div>
+<%= div_for punch, :class => "#{punch.created_at > Time.now.beginning_of_day ? 'today' : ''}" do %>
+  <p><%= highlight(punch).html_safe %></p>
+  <div class="date">
+    <%= content_tag (:div, "Started working #{punch.start_time.strftime('%B %d %Y - %Hh%Mm%S')}", :class => "start-time") if punch.start_time? %><br />
+    <%= punch.created_at.strftime("%a, %B %d, %Y") %><br />
+    <%= content_tag(:span, "Worked for #{punch.duration_in_minutes} minutes", :class => "duration-time") if punch.duration_in_minutes? %>
+  </div>
+  <div class="punch_control">
+    <%= link_to "Start working", start_path(punch), :class => "start-link", :remote => true unless punch.start_time? %>
+    <%= link_to "Stop working", stop_path(punch), :class => "stop-link", :remote => true if punch.start_time? %>
+    <%= link_to image_tag("edit.png"), edit_punch_path(punch) %> 
+    <%= link_to image_tag("delete.png"), punch, :confirm => 'Are you sure?', :method => :delete %>
+  </div>
+<% end %>

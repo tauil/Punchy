@@ -13,7 +13,8 @@ Timish::Application.routes.draw do |map|
   
   root :to => "punches#index"
   
-  match 'punches/:id/stop' => 'punches#stop'
+  match 'punches/:id/start' => 'punches#start', :as => "start"
+  match 'punches/:id/stop' => 'punches#stop', :as => "stop"
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

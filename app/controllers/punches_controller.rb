@@ -138,8 +138,13 @@ class PunchesController < ApplicationController
   	end
   end
 
+  def start
+    @punch = Punch.find(params[:id])
+    @punch.start_work
+  end
+
   def stop
     @punch = Punch.find(params[:id])
-    @punch.end_work
+    @punch.stop_work
   end
 end

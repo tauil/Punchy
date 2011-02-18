@@ -9,8 +9,6 @@ class Punch < ActiveRecord::Base
 	scope :months_ago, lambda { |lambda| where("punches.created_at > ? AND punches.created_at < ?", lambda.months.ago.beginning_of_month, (lambda - 1).months.ago.beginning_of_month)}
 	scope :since, lambda { |lambda| where("punches.created_at > ?", lambda)}
 
-        after_create :start_work
-
 	#sum hours scopes
 	def self.hours_today
 		self.since(Time.now.beginning_of_day).sum(:duration_in_minutes)
@@ -49,12 +47,13 @@ class Punch < ActiveRecord::Base
 	end
         
         def start_work
-          self.start_time = Time.now unless self.duration_in_minutes?
+          self.start_time = Time.now
           self.save
         end
 
-        def end_work
-          self.duration_in_minutes = self.duration_in_minutes + ((Time.now.to_i - start_time.to_i) / 60)
+        def stop_work
+          self.duration_in_minutes = self.duration_in_minutes + ((Time.now.to_i - start_time.to_datetime.to_i) / 60)
+          self.start_time = nil
           self.save
         end
 	

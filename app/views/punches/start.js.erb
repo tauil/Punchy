@@ -1,0 +1,2 @@
+$("#<%= dom_id(@punch) %> .punch_control").prepend("<%= escape_javascript(link_to "Stop working", stop_path(@punch), :class => "stop-link", :remote => true) %>");
+$("#<%= dom_id(@punch) %> .start-link").remove();
