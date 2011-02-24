@@ -17,7 +17,7 @@ ActiveRecord::Schema.define(:version => 20110216123855) do
     t.integer  "duration_in_minutes"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.date     "start_time"
+    t.datetime "start_time"
   end
 
   create_table "taggings", :force => true do |t|
