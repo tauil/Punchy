@@ -62,20 +62,23 @@ class Punch < ActiveRecord::Base
 	def parse_for_time(text)
 		#right now this will only parse dates that look like 1.5 hours, 1 hour, 1hour using minutes, hours, days or months
 		#1 day is defined to be 8 hours (shouldn't be working longer than this anyways) and 1 month is defined as 30 days (this isn't great, but it's a simple app so it'll work)
-		date_reg = /([0-9]+\.?[0-9]{0,2})\s*(day|week|hour|minute|month)/i #this will go through and find all the instances of a date/time in the body, including decimals like 1.5
+		date_reg = /([0-9]+\.?[0-9]{0,2})\s*(days|weeks|hours|minutes|months|day|week|hour|minute|month)/i #this will go through and find all the instances of a date/time in the body, including decimals like 1.5
 		time = 0
 		durations = text.scan(date_reg)
+
+                self.body = text.gsub(date_reg, '') #strip time text from body string
+
 		durations.each do |number, interval| #number is a number, interval will be either day, month, minute or hour
 			case interval.downcase
-			when "day"
+			when /(days|day)/i
 				time = time + (number.to_f * 8 * 60).to_i
-			when "week"
+			when /(weeks|week)/i
 				time = time + (number.to_f * 5 * 8 * 60 ).to_i
-			when "hour"
+			when /(hours|hour)/i
 				time = time + (number.to_f * 60).to_i
-			when "minute"
+			when /(minutes|minute)/i
 				time = time + number.to_i
-			when "month"
+			when /(months|month)/i
 				time = time + (number.to_f * 30 * 8 * 60).to_i
 			else
 				raise "Invalid time interval"

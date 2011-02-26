@@ -1,9 +1,8 @@
 <%= div_for punch, :class => "#{punch.created_at > Time.now.beginning_of_day ? 'today' : ''}" do %>
-  <p><%= highlight(punch).html_safe %></p>
+  <p><%= highlight(punch).html_safe %> <%= pluralize(punch.duration_in_minutes, 'minute') if punch.duration_in_minutes? %></p>
   <div class="date">
-    <%= content_tag (:div, "Started working #{punch.start_time.strftime('%B %d %Y - %Hh%Mm%S')}", :class => "start-time") if punch.start_time? %><br />
-    <%= punch.created_at.strftime("%a, %B %d, %Y") %><br />
-    <%= content_tag(:span, "Worked for #{punch.duration_in_minutes} minutes", :class => "duration-time") if punch.duration_in_minutes? %>
+    <%= content_tag (:div, "Started working at #{punch.start_time.strftime('%B %d %Y - %Hh%Mm%S')}", :class => "start-time") if punch.start_time? %><br />
+    <%= punch.created_at.strftime("%a, %B %d, %Y") %>
   </div>
   <div class="punch_control">
     <%= link_to "Start working", start_path(punch), :class => "start-link", :remote => true unless punch.start_time? %>
