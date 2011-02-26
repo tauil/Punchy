@@ -1,5 +1,4 @@
 $("#<%= dom_id(@punch) %> .punch_control").prepend("<%= escape_javascript(link_to "Start working", start_path(@punch), :class => "start-link", :remote => true) %>");
 $("#<%= dom_id(@punch) %> .stop-link").remove();
-$("#<%= dom_id(@punch) %> .duration-time").remove();
-$("#<%= dom_id(@punch) %> .date").append("<%= escape_javascript(content_tag(:span, 'Worked for '+@punch.duration_in_minutes.to_s+' minutes', :class => 'duration-time')) %>");
-$("#<%= dom_id(@punch) %> .start_time").remove();
+$("#<%= dom_id(@punch) %> .duration-time").replaceWith("<%= escape_javascript(content_tag(:span, pluralize(@punch.duration_in_minutes, 'minute'), :class => "duration-time")) %>");
+$("#<%= dom_id(@punch) %> .start-time").remove();
