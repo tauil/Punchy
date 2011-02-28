@@ -1,4 +1,8 @@
 $("#<%= dom_id(@punch) %> .punch_control").prepend("<%= escape_javascript(link_to "Start working", start_path(@punch), :class => "start-link", :remote => true) %>");
 $("#<%= dom_id(@punch) %> .stop-link").remove();
-$("#<%= dom_id(@punch) %> .duration-time").replaceWith("<%= escape_javascript(content_tag(:span, pluralize(@punch.duration_in_minutes, 'minute'), :class => "duration-time")) %>");
+if ($('#<%= dom_id(@punch) %> .duration-time').length) {
+    $("#<%= dom_id(@punch) %> .duration-time").replaceWith("<%= escape_javascript(content_tag(:span, pluralize(@punch.duration_in_minutes, 'minute'), :class => "duration-time")) %>");
+} else{
+    $("#<%= dom_id(@punch) %> p").append("<%= escape_javascript(content_tag(:span, pluralize(@punch.duration_in_minutes, 'minute'), :class => "duration-time")) %>");
+}
 $("#<%= dom_id(@punch) %> .start-time").remove();
